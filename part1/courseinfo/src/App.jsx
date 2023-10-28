@@ -14,18 +14,22 @@ const Total = (props) => {
   );
 };
 
-const Content = (props) => {
+const Part = (props) => {
   return (
     <div>
       <p>
-        {props.partOne} {props.exs1}
+        {props.partName} {props.exsNum}
       </p>
-      <p>
-        {props.partTwo} {props.exs2}
-      </p>
-      <p>
-        {props.partThree} {props.exs3}
-      </p>
+    </div>
+  );
+};
+
+const Content = (props) => {
+  return (
+    <div>
+      <Part partName={props.partOne} exsNum={props.exs1} />
+      <Part partName={props.partTwo} exsNum={props.exs2} />
+      <Part partName={props.partThree} exsNum={props.exs3} />
     </div>
   );
 };
