@@ -11,6 +11,6 @@ sequenceDiagram
     server-->>browser: HTTP status code 201
     deactivate server
     
-    Note right of browser: The browser executes event handles that renders the notes to display
+    Note right of browser: The browser executes the callback function that renders the notes
 
 ```
