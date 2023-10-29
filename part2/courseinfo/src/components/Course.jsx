@@ -1,6 +1,14 @@
 const Header = ({ course }) => <h1>{course}</h1>;
 
-const Total = ({ sum }) => <p>Number of exercises {sum}</p>;
+const Total = ({ parts }) => {
+  let totalSum = 0;
+  parts.forEach((part) => (totalSum = totalSum + part.exercises));
+  return (
+    <p>
+      <b>total of {totalSum} exercises</b>
+    </p>
+  );
+};
 
 const Part = ({ part }) => (
   <p>
@@ -10,9 +18,9 @@ const Part = ({ part }) => (
 
 const Content = ({ parts }) => (
   <>
-    <Part part={parts[0]} />
-    <Part part={parts[1]} />
-    <Part part={parts[2]} />
+    {parts.map((part) => (
+      <Part key={part.id} part={part} />
+    ))}
   </>
 );
 
@@ -21,13 +29,7 @@ const Course = (props) => {
     <div>
       <Header course={props.course.name} />
       <Content parts={props.course.parts} />
-      <Total
-        sum={
-          props.course.parts[0].exercises +
-          props.course.parts[1].exercises +
-          props.course.parts[2].exercises
-        }
-      />
+      <Total parts={props.course.parts} />
     </div>
   );
 };
