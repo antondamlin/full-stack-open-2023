@@ -1,8 +1,11 @@
 const Header = ({ course }) => <h1>{course}</h1>;
 
 const Total = ({ parts }) => {
-  let totalSum = 0;
-  parts.forEach((part) => (totalSum = totalSum + part.exercises));
+  const totalSum = parts
+    .map((part) => part.exercises)
+    .reduce((s, p) => {
+      return s + p;
+    });
   return (
     <p>
       <b>total of {totalSum} exercises</b>
@@ -18,8 +21,8 @@ const Part = ({ part }) => (
 
 const Content = ({ parts }) => (
   <>
-    {parts.map((part) => (
-      <Part key={part.id} part={part} />
+    {parts.map((part, i) => (
+      <Part key={i} part={part} />
     ))}
   </>
 );
