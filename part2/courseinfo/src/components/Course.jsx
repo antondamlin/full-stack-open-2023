@@ -1,4 +1,4 @@
-const Header = ({ course }) => <h1>{course}</h1>;
+const Header = ({ course }) => <h2>{course}</h2>;
 
 const Total = ({ parts }) => {
   const totalSum = parts
@@ -28,6 +28,7 @@ const Content = ({ parts }) => (
 );
 
 const Course = (props) => {
+  console.log(props);
   return (
     <div>
       <Header course={props.course.name} />
