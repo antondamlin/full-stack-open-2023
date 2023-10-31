@@ -1,9 +1,10 @@
-const Filter = (props) => {
+const Filter = ({ filterValue, filterChange }) => {
   return (
     <div>
-      <h2>Phonebook</h2>
-      filter names:{" "}
-      <input value={newFilter} onChange={handleFilterChange}></input>
+      filter shown with{" "}
+      <input value={filterValue} onChange={filterChange}></input>
     </div>
   );
 };
+
+export default Filter;
