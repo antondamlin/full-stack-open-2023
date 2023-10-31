@@ -1,12 +1,12 @@
 const PersonForm = ({
-  postNote,
+  addNewPerson,
   nameVal,
   numberVal,
   changeName,
   changeNumber,
 }) => {
   return (
-    <form onSubmit={postNote}>
+    <form onSubmit={addNewPerson}>
       <div>
         name: <input value={nameVal} onChange={changeName} />
       </div>

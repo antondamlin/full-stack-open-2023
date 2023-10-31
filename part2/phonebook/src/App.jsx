@@ -65,7 +65,6 @@ const App = () => {
         .catch((error) => {
           console.log(error);
         });
-      setTimeout(() => {}, 5000);
     }
   };
 
@@ -83,7 +82,6 @@ const App = () => {
           personServices.getAll().then((response) => {
             setPersons(response.data);
           });
-          setTimeout(() => {}, 5000);
         });
     }
   };
@@ -110,7 +108,7 @@ const App = () => {
       <Filter filterValue={newFilter} filterChange={handleFilterChange} />
       <h3>Add a new</h3>
       <PersonForm
-        postNote={addPerson}
+        addNewPerson={addPerson}
         nameVal={newName}
         numberVal={newNumber}
         changeName={handleContactChange}
