@@ -30,5 +30,5 @@ export default {
   getAll: getAll,
   create: create,
   update: update,
-  delete: deleteVal,
+  remove: deleteVal,
 };

@@ -16,7 +16,7 @@ const App = () => {
     });
   }, []);
 
-  const addNote = (event) => {
+  const addPerson = (event) => {
     event.preventDefault();
     const found = persons.some((person) => person.name === newName);
     if (found) {
@@ -35,6 +35,28 @@ const App = () => {
         })
         .catch((error) => {
           console.log(error);
+        });
+      setTimeout(() => {
+      }, 5000);
+    }
+  };
+
+  const handleDeletePerson = (person) => {
+    if (window.confirm(`Delete ${person.name}`)) {
+      personServices
+        .remove(person.id)
+        .then(() => {
+          personServices.getAll().then((response) => {
+            console.log(response.data);
+            setPersons(response.data);
+          });
+        })
+        .catch((error) => {
+          personServices.getAll().then((response) => {
+            setPersons(response.data);
+          });
+          setTimeout(() => {
+          }, 5000);
         });
     }
   };
@@ -61,14 +83,14 @@ const App = () => {
       <Filter filterValue={newFilter} filterChange={handleFilterChange} />
       <h3>Add a new</h3>
       <PersonForm
-        postNote={addNote}
+        postNote={addPerson}
         nameVal={newName}
         numberVal={newNumber}
         changeName={handleContactChange}
         changeNumber={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Persons personsToShow={personsFiltered} />
+      <Persons personsToShow={personsFiltered} onDelete={handleDeletePerson} />
     </div>
   );
 };
