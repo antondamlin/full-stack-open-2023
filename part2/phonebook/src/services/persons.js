@@ -3,24 +3,15 @@ import axios from "axios";
 const baseUrl = "http://localhost:3001/persons";
 
 const getAll = () => {
-  return axios.get(baseUrl).catch((error) => {
-    console.log(error);
-  });
+  return axios.get(baseUrl);
 };
 
-const create = (newObject) => {
-  return axios.post(baseUrl, newObject).catch((error) => {
-    console.log(error);
-  });
+const create = (personObject) => {
+  return axios.post(baseUrl, personObject);
 };
 
-const update = (id, newObject) => {
-  return axios
-    .put(`${baseUrl}/${id}`, newObject)
-    .then((respose) => respose.data)
-    .catch((error) => {
-      console.log(error);
-    });
+const update = (id, personObject) => {
+  return axios.put(`${baseUrl}/${id}`, personObject);
 };
 
 const deleteVal = (id) => {

@@ -11,17 +11,46 @@ const App = () => {
   const [newFilter, setFilter] = useState("");
 
   useEffect(() => {
-    personServices.getAll().then((response) => {
-      setPersons(response.data);
-    });
+    personServices
+      .getAll()
+      .then((response) => {
+        setPersons(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   const addPerson = (event) => {
     event.preventDefault();
     const found = persons.some((person) => person.name === newName);
-    if (found) {
-      alert(`${newName} is already added to phonebook`);
-    } else {
+    if (
+      found &&
+      window.confirm(
+        `${newName} is already added to phonebook, do you want to update the number?`
+      )
+    ) {
+      const personObject = {
+        name: newName,
+        number: newNumber,
+      };
+      const personInArray = persons.find((per) => per.name === newName);
+      personServices
+        .update(personInArray.id, personObject)
+        .then((response) => {
+          const newArray = persons.map((p) => {
+            if (p.id === response.data.id) {
+              return response.data;
+            } else {
+              return p;
+            }
+          });
+          setPersons(newArray);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else if (!found) {
       const personObject = {
         name: newName,
         number: newNumber,
@@ -36,8 +65,7 @@ const App = () => {
         .catch((error) => {
           console.log(error);
         });
-      setTimeout(() => {
-      }, 5000);
+      setTimeout(() => {}, 5000);
     }
   };
 
@@ -55,8 +83,7 @@ const App = () => {
           personServices.getAll().then((response) => {
             setPersons(response.data);
           });
-          setTimeout(() => {
-          }, 5000);
+          setTimeout(() => {}, 5000);
         });
     }
   };
