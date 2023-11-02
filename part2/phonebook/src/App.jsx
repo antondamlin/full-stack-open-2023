@@ -3,12 +3,15 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import personServices from "./services/persons";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newFilter, setFilter] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [classNotification, setClassNotification] = useState("");
 
   useEffect(() => {
     personServices
@@ -49,6 +52,22 @@ const App = () => {
         })
         .catch((error) => {
           console.log(error);
+          setErrorMessage(
+            `${personObject.name} has already been removed from server`
+          );
+          setClassNotification("error");
+          personServices
+            .getAll()
+            .then((response) => {
+              setPersons(response.data);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+          setTimeout(() => {
+            setErrorMessage("");
+            setClassNotification("");
+          }, 5000);
         });
     } else if (!found) {
       const personObject = {
@@ -61,6 +80,12 @@ const App = () => {
           setPersons(persons.concat(response.data));
           setNewName("");
           setNewNumber("");
+          setErrorMessage(`Added ${newName}`);
+          setClassNotification("successful");
+          setTimeout(() => {
+            setErrorMessage("");
+            setClassNotification("");
+          }, 5000);
         })
         .catch((error) => {
           console.log(error);
@@ -74,14 +99,22 @@ const App = () => {
         .remove(person.id)
         .then(() => {
           personServices.getAll().then((response) => {
-            console.log(response.data);
             setPersons(response.data);
           });
         })
         .catch((error) => {
+          console.log(error);
           personServices.getAll().then((response) => {
             setPersons(response.data);
           });
+          setErrorMessage(
+            `${person.name} has already been removed from server`
+          );
+          setClassNotification("error");
+          setTimeout(() => {
+            setErrorMessage("");
+            setClassNotification("");
+          }, 5000);
         });
     }
   };
@@ -105,6 +138,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={errorMessage} classVal={classNotification} />
       <Filter filterValue={newFilter} filterChange={handleFilterChange} />
       <h3>Add a new</h3>
       <PersonForm
