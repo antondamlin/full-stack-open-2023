@@ -1,15 +1,17 @@
 import axios from "axios";
-const baseUrl = "https://studies.cs.helsinki.fi/restcountries/api/";
+const api_key = import.meta.env.VITE_API_KEY
+const baseUrlCountry = "https://studies.cs.helsinki.fi/restcountries/api/";
 
+//http://api.weatherapi.com/v1/current.json?key=<YOUR_API_KEY>&q=London
 const getAll = () => {
-  return axios.get(baseUrl + "all");
+  return axios.get(baseUrlCountry + "all");
 };
 
-const getCountry = (countryName) => {
-  return axios.get(baseUrl + "name/" + countryName);
+const getWeatherData = (capital) => {
+  return axios.get("http://api.weatherapi.com/v1/current.json?key=" + api_key + "&q=" + capital);
 };
 
 export default {
   getAll: getAll,
-  getCountry: getCountry,
+  getWeatherData: getWeatherData,
 };
