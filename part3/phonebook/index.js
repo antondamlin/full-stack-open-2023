@@ -25,7 +25,7 @@ let persons = [
   },
 ];
 
-app.get("/api/persons", (response) => {
+app.get("/api/persons", (request, response) => {
   response.json(persons);
 });
 
@@ -37,6 +37,12 @@ app.get("/api/persons/:id", (request, response) => {
   } else {
     response.status(404).end();
   }
+});
+
+app.delete("/api/persons/:id", (request, response) => {
+  const id = Number(request.params.id);
+  persons = persons.filter((per) => per.id !== id);
+  response.status(204).end();
 });
 
 app.get("/info", (request, response) => {
