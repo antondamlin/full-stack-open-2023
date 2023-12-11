@@ -57,22 +57,28 @@ app.post("/api/persons", (request, response) => {
   const body = request.body;
   const maxId = Math.floor(Math.random() * 1000000);
 
-  console.log(body);
-  if (!body.name) {
+  if (body.name && body.number) {
+    const alreadyExists = persons.find((per) => per.name == body.name);
+    if (!alreadyExists) {
+      const person = {
+        id: maxId + 1,
+        name: body.name,
+        number: body.number,
+      };
+
+      persons = persons.concat(person);
+
+      return response.json(person);
+    } else {
+      return response.status(400).json({
+        error: "name must be unique",
+      });
+    }
+  } else {
     return response.status(400).json({
-      error: "No content in body",
+      error: "body must contain name and number values",
     });
   }
-
-  const person = {
-    id: maxId + 1,
-    name: body.name,
-    number: body.number,
-  };
-
-  persons = persons.concat(person);
-
-  response.json(person);
 });
 
 const PORT = 3001;
