@@ -53,15 +53,26 @@ app.get("/api/persons", (request, response) => {
 });
 
 app.get("/api/persons/:id", (request, response) => {
-  Person.findById(request.params.id).then(per => {
-    response.json(per)
-  })
+  Person.findById(request.params.id)
+    .then((per) => {
+      if (per) {
+        response.json(per);
+      } else {
+        response.status(404).end();
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      response.status(400).send({ error: "malformatted id" });
+    });
 });
 
 app.delete("/api/persons/:id", (request, response) => {
-  const id = Number(request.params.id);
-  persons = persons.filter((per) => per.id !== id);
-  response.status(204).end();
+  Person.findByIdAndDelete(request.params.id)
+    .then((result) => {
+      response.status(204).end();
+    })
+    .catch((error) => next(error));
 });
 
 app.get("/info", (request, response) => {
@@ -92,7 +103,6 @@ app.post("/api/persons", (request, response) => {
     response.json(savedPerson);
   });
 });
-
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
