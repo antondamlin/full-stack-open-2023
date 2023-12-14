@@ -52,9 +52,7 @@ const App = () => {
         })
         .catch((error) => {
           console.log(error);
-          setErrorMessage(
-            `${personObject.name} has already been removed from server`
-          );
+          setErrorMessage(error.response.data.error);
           setClassNotification("error");
           personServices
             .getAll()
