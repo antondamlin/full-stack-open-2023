@@ -1,2 +1,2 @@
 ### PhoneBook Application
-Link to backend: https://backend-phonebook-application.onrender.com/api/persons
+Link to application: https://backend-phonebook-application.onrender.com
