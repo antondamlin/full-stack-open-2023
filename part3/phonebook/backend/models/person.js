@@ -1,23 +1,39 @@
-const mongoose = require('mongoose')
+require("dotenv").config();
+const mongoose = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
+mongoose.set("strictQuery", false);
 
-mongoose.set('strictQuery', false)
+const url = process.env.MONGODB_URI;
 
-const url = process.env.MONGODB_URI
+console.log("connecting to", url);
 
-console.log('connecting to', url)
-
-mongoose.connect(url)
-  .then(result => {
-    console.log('connected to MongoDB')
+mongoose
+  .connect(url)
+  .then((result) => {
+    console.log("connected to MongoDB");
   })
   .catch((error) => {
-    console.log('error connecting to MongoDB:', error.message)
-  })
-
+    console.log("error connecting to MongoDB:", error.message);
+  });
 
 const personSchema = new mongoose.Schema({
-  name: String,
-  number: String,
+  name: {
+    type: String,
+    minlength: 3,
+    required: true,
+    unique: true,
+  },
+  number: {
+    type: String,
+    minlength: 8,
+    required: true,
+    validate: {
+      validator: function (v) {
+        return /\d{2}-\d{6} | \d{3}-\d{5}/.test(v);
+      },
+      message: (props) => `${props.value} is not a valid phone number!`,
+    },
+  },
 });
 
 personSchema.set("toJSON", {
@@ -27,5 +43,5 @@ personSchema.set("toJSON", {
     delete returnedObject.__v;
   },
 });
-
+personSchema.plugin(uniqueValidator);
 module.exports = mongoose.model("Person", personSchema);

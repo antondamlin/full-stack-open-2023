@@ -89,6 +89,12 @@ const App = () => {
         })
         .catch((error) => {
           console.log(error);
+          setErrorMessage(error.response.data.error);
+          setClassNotification("error");
+          setTimeout(() => {
+            setErrorMessage("");
+            setClassNotification("");
+          }, 5000);
         });
     }
   };
