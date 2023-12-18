@@ -132,6 +132,19 @@ test('If title is missing, the backend respond with the status code 400', async 
   expect(blogsInDb).toHaveLength(initialBlogs.length)
 })
 
+test('If url is missing, the backend respond with the status code 400', async () => {
+  const missingUrl = {
+    title: 'New_Blog_Post5',
+    author: 'New_Author5',
+  }
+
+  await api.post('/api/blogs').send(missingUrl).expect(400)
+
+  const blogsInDb = await Blog.find({})
+
+  expect(blogsInDb).toHaveLength(initialBlogs.length)
+})
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
