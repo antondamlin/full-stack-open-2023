@@ -172,6 +172,40 @@ test("Deleting blog post works as expected", async () => {
   expect(titlesAfterDelete).not.toContain(addedBlog.title);
 });
 
+test("Blog update successful ", async () => {
+  const newBlog = {
+    title: "New_Blog_Post7",
+    author: "New_Author7",
+    url: "url_adress7",
+    likes: 2,
+  };
+
+  await api.post("/api/blogs").send(newBlog).expect(201);
+
+  const blogsInDb = await Blog.find({});
+  const updatingBlog = blogsInDb.find((blog) => blog.title === newBlog.title);
+
+  const updatedNewBlog = {
+    title: updatingBlog.title,
+    author: updatingBlog.author,
+    url: updatingBlog.url,
+    likes: 7,
+  };
+
+  await api
+    .put(`/api/blogs/${updatingBlog.id}`)
+    .send(updatedNewBlog)
+    .expect(200)
+    .expect("Content-Type", /application\/json/);
+
+  const blogsAfterUpdate = await Blog.find({});
+  expect(blogsAfterUpdate).toHaveLength(initialBlogs.length + 1);
+  const updatedBlog = blogsAfterUpdate.find(
+    (blog) => blog.title === "New_Blog_Post7"
+  );
+  expect(updatedBlog.likes).toBe(7);
+});
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
