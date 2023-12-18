@@ -99,9 +99,9 @@ test('a valid blog can be added ', async () => {
 
 test('The value of likes defaults to zero when the likes value is missing from the added blog', async () => {
   const newBlog = {
-    title: 'New_Blog_Post2',
-    author: 'New_Author2',
-    url: 'url_adress2',
+    title: 'New_Blog_Post3',
+    author: 'New_Author3',
+    url: 'url_adress3',
   }
 
   await api
@@ -111,10 +111,25 @@ test('The value of likes defaults to zero when the likes value is missing from t
     .expect('Content-Type', /application\/json/)
 
   const blogsInDb = await Blog.find({})
+
+  console.log(blogsInDb)
   const checkNewBlog = await blogsInDb.find(
-    (blog) => blog.title === 'New_Blog_Post2'
+    (blog) => blog.title === 'New_Blog_Post3'
   )
   expect(checkNewBlog.likes).toBe(0)
+})
+
+test('If title is missing, the backend respond with the status code 400', async () => {
+  const missingTitle = {
+    author: 'New_Author4',
+    url: 'url_adress4',
+  }
+
+  await api.post('/api/blogs').send(missingTitle).expect(400)
+
+  const blogsInDb = await Blog.find({})
+
+  expect(blogsInDb).toHaveLength(initialBlogs.length)
 })
 
 afterAll(async () => {
