@@ -145,6 +145,33 @@ test("If url is missing, the backend respond with the status code 400", async ()
   expect(blogsInDb).toHaveLength(initialBlogs.length);
 });
 
+test("Deleting blog post works as expected", async () => {
+  const newBlog = {
+    title: "New_Blog_Post6",
+    author: "New_Author6",
+    url: "url_adress6",
+  };
+
+  await api
+    .post("/api/blogs")
+    .send(newBlog)
+    .expect(201)
+    .expect("Content-Type", /application\/json/);
+
+  const blogsInDb = await Blog.find({});
+  const addedBlog = blogsInDb.find((blog) => blog.title === newBlog.title);
+
+  await api.delete(`/api/blogs/${addedBlog.id}`).expect(204);
+
+  const blogsAfterDelete = await Blog.find({});
+
+  expect(blogsAfterDelete).toHaveLength(initialBlogs.length);
+
+  const titlesAfterDelete = blogsAfterDelete.map((blog) => blog.title);
+
+  expect(titlesAfterDelete).not.toContain(addedBlog.title);
+});
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
