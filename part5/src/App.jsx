@@ -2,13 +2,16 @@ import { useState, useEffect } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
-import AddBlog from "./components/AddBlog";
+import AddBlog from "./components/AddBlogForm";
+import Notification from "./components/Notifications";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [classNotification, setClassNotification] = useState("");
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -25,7 +28,6 @@ const App = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-
     try {
       const user = await loginService.login({
         username,
@@ -35,10 +37,18 @@ const App = () => {
       setUser(user);
       setUsername("");
       setPassword("");
-    } catch (exception) {
-      setErrorMessage("Wrong credentials");
+      setErrorMessage(`Login Successful! Welcome ${user.name}`);
+      setClassNotification("successful");
       setTimeout(() => {
-        setErrorMessage(null);
+        setErrorMessage("");
+        setClassNotification("");
+      }, 5000);
+    } catch (exception) {
+      setErrorMessage("Wrong username or password");
+      setClassNotification("error");
+      setTimeout(() => {
+        setErrorMessage("");
+        setClassNotification("");
       }, 5000);
     }
   };
@@ -57,7 +67,27 @@ const App = () => {
         url: url,
       });
       setBlogs(blogs.concat(newBlog));
-    } catch (exception) {}
+      setErrorMessage(`a new blog ${title} by ${author} added`);
+      setClassNotification("successful");
+      setTimeout(() => {
+        setErrorMessage("");
+        setClassNotification("");
+      }, 5000);
+    } catch (exception) {
+      const errorText = JSON.parse(exception.request.responseText);
+      if (errorText && errorText.error) {
+        setErrorMessage(errorText.error);
+      } else {
+        setErrorMessage(
+          "An error occured when creating trying to create the new blog. Make sure the input fullfills the criteria of a blog post"
+        );
+      }
+      setClassNotification("error");
+      setTimeout(() => {
+        setErrorMessage("");
+        setClassNotification("");
+      }, 5000);
+    }
   };
 
   if (user === null) {
@@ -92,6 +122,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <Notification message={errorMessage} classVal={classNotification} />
       <div style={{ display: "flex" }}>
         <p>{user.name} logged in</p>{" "}
         <button onClick={handleLogout}>logout</button>
