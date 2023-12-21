@@ -13,12 +13,13 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [classNotification, setClassNotification] = useState("");
+  const [updateBlogs, setUpdageBlogs] = useState(false);
 
   const addBlogForm = useRef();
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, []);
+  }, [updateBlogs]);
 
   useEffect(() => {
     const userLocal = window.localStorage.getItem("loggedBlogUser");
@@ -70,7 +71,7 @@ const App = () => {
         author: author,
         url: url,
       });
-      setBlogs(blogs.concat(newBlog));
+      setUpdageBlogs(!updateBlogs);
       setErrorMessage(`a new blog ${title} by ${author} added`);
       setClassNotification("successful");
       setTimeout(() => {
@@ -93,6 +94,8 @@ const App = () => {
       }, 5000);
     }
   };
+
+  console.log(blogs);
 
   if (user === null) {
     return (

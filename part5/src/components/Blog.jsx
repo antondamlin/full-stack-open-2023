@@ -17,6 +17,7 @@ const Blog = ({ blog }) => {
     borderWidth: 1,
     marginBottom: 5,
   };
+  
   return (
     <div style={blogStyle}>
       <div>
