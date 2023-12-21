@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import AddBlog from "./components/AddBlogForm";
 import Notification from "./components/Notifications";
+import Togglable from "./components/Toggable";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -12,6 +13,8 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [classNotification, setClassNotification] = useState("");
+
+  const addBlogForm = useRef();
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -60,6 +63,7 @@ const App = () => {
   };
 
   const handleBlogAddition = async (title, author, url) => {
+    addBlogForm.current.toggleVisibility();
     try {
       const newBlog = await blogService.addBlog({
         title: title,
@@ -127,7 +131,9 @@ const App = () => {
         <p>{user.name} logged in</p>{" "}
         <button onClick={handleLogout}>logout</button>
       </div>
-      <AddBlog addBlog={handleBlogAddition} />
+      <Togglable buttonLabel="new blog" ref={addBlogForm}>
+        <AddBlog addBlog={handleBlogAddition} />
+      </Togglable>
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />
       ))}
