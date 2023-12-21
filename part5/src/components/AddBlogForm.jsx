@@ -4,6 +4,10 @@ const AddBlog = ({ addBlog }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
+  const [blogFormVisible, setblogFormVisible] = useState(false);
+
+  const hide = { display: blogFormVisible ? "none" : "" };
+  const show = { display: blogFormVisible ? "" : "none" };
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -27,21 +31,27 @@ const AddBlog = ({ addBlog }) => {
 
   return (
     <div>
+      <div style={hide}>
+        <button onClick={() => setblogFormVisible(true)}>new blog</button>
+      </div>
       <h2>create new</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          title:
-          <input value={title} onChange={handleTitleChange} />
-        </div>
-        <div>
-          author: <input value={author} onChange={handleAuthorChange} />
-        </div>
-        <div>
-          url:
-          <input value={url} onChange={handleUrlChange} />
-        </div>
-        <button type="submit">create</button>
-      </form>
+      <div style={show}>
+        <form onSubmit={handleSubmit}>
+          <div>
+            title:
+            <input value={title} onChange={handleTitleChange} />
+          </div>
+          <div>
+            author: <input value={author} onChange={handleAuthorChange} />
+          </div>
+          <div>
+            url:
+            <input value={url} onChange={handleUrlChange} />
+          </div>
+          <button type="submit">create</button>
+        </form>
+        <button onClick={() => setblogFormVisible(false)}>cancel</button>
+      </div>
     </div>
   );
 };
