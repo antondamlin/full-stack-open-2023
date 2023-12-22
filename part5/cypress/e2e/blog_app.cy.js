@@ -45,7 +45,7 @@ describe("Blog app", function () {
       cy.get("#author").type("testing_author");
       cy.get("#url").type("testing_url");
       cy.get("#submit").click();
-      cy.contains("Testing_Title");
+      cy.contains("Testing_Title testing_author");
     });
 
     it("User can like a blog", function () {
@@ -55,11 +55,25 @@ describe("Blog app", function () {
       cy.get("#author").type("testing_author");
       cy.get("#url").type("testing_url");
       cy.get("#submit").click();
-      cy.contains("Testing_Title");
+      cy.contains("Testing_Title testing_author");
 
       cy.get("#viewButton").click();
       cy.get("#likeButton").click();
       cy.contains("1");
+    });
+
+    it("User can delete a blog that they have created", function () {
+      cy.contains("blogs");
+      cy.get("#newBlogButton").click();
+      cy.get("#title").type("Testing_Title");
+      cy.get("#author").type("testing_author");
+      cy.get("#url").type("testing_url");
+      cy.get("#submit").click();
+      cy.contains("Testing_Title testing_author");
+
+      cy.get("#viewButton").click();
+      cy.get("#removeButton").click();
+      cy.get("#landing").should("not.contain", "Testing_Title testing_author");
     });
   });
 });

@@ -173,7 +173,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div id="landing">
       <h2>blogs</h2>
       <Notification message={errorMessage} classVal={classNotification} />
       <div style={{ display: "flex" }}>
