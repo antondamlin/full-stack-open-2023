@@ -1,19 +1,19 @@
-import { useState } from "react";
+import { useState } from 'react'
 
 const Blog = ({ blog, addLike, deleteBlog }) => {
-  const [visible, setVisible] = useState(false);
-  const [buttonText, setButtonText] = useState("view");
-  const show = { display: visible ? "" : "none" };
+  const [visible, setVisible] = useState(false)
+  const [buttonText, setButtonText] = useState('view')
+  const show = { display: visible ? '' : 'none' }
 
   const handleViewChange = () => {
-    const buttonText = !visible ? "hide" : "view";
-    setVisible(!visible);
-    setButtonText(buttonText);
-  };
+    const buttonText = !visible ? 'hide' : 'view'
+    setVisible(!visible)
+    setButtonText(buttonText)
+  }
 
   const deleteClick = () => {
-    deleteBlog(blog);
-  };
+    deleteBlog(blog)
+  }
 
   const handleAddLike = () => {
     const newBlog = {
@@ -22,16 +22,16 @@ const Blog = ({ blog, addLike, deleteBlog }) => {
       author: blog.author,
       url: blog.url,
       likes: blog.likes + 1,
-    };
-    addLike(newBlog, blog.id);
-  };
+    }
+    addLike(newBlog, blog.id)
+  }
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
-    border: "solid",
+    border: 'solid',
     borderWidth: 1,
     marginBottom: 5,
-  };
+  }
 
   return (
     <div style={blogStyle}>
@@ -49,7 +49,7 @@ const Blog = ({ blog, addLike, deleteBlog }) => {
         <button onClick={deleteClick}>remove</button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Blog;
+export default Blog
