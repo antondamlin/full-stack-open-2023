@@ -36,11 +36,11 @@ const Blog = ({ blog, addLike, deleteBlog }) => {
 
   return (
     <div style={blogStyle}>
-      <div>
+      <div className='blogInfo'>
         {blog.title} {blog.author}
         <button onClick={handleViewChange}>{buttonText}</button>
       </div>
-      <div style={show}>
+      <div className='blogInfoExpanded' style={show}>
         <div>{blog.url}</div>
         <div>
           {blog.likes}
