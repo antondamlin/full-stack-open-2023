@@ -40,6 +40,7 @@ const App = () => {
       });
       window.localStorage.setItem("loggedBlogUser", JSON.stringify(user));
       setUser(user);
+      blogService.setToken(user.token);
       setUsername("");
       setPassword("");
       setErrorMessage(`Login Successful! Welcome ${user.name}`);
@@ -110,6 +111,30 @@ const App = () => {
     }
   };
 
+  const handleDelete = async (blog) => {
+    try {
+      if (window.confirm(`Do you want to delete ${blog.title} permanently?`)) {
+        await blogService.deleteBlog(blog.id);
+        setErrorMessage(`${blog.title} by ${blog.author} successfully deleted`);
+        setUpdageBlogs(!updateBlogs);
+        setClassNotification("successful");
+        setTimeout(() => {
+          setErrorMessage("");
+          setClassNotification("");
+        }, 5000);
+      }
+    } catch (exception) {
+      setErrorMessage(
+        "Not able to delete blog " + blog.title + " by " + blog.author
+      );
+      setClassNotification("error");
+      setTimeout(() => {
+        setErrorMessage("");
+        setClassNotification("");
+      }, 5000);
+    }
+  };
+
   if (user === null) {
     return (
       <div>
@@ -151,7 +176,12 @@ const App = () => {
         <AddBlog addBlog={handleBlogAddition} />
       </Togglable>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} addLike={handleAddLike} />
+        <Blog
+          key={blog.id}
+          blog={blog}
+          addLike={handleAddLike}
+          deleteBlog={handleDelete}
+        />
       ))}
     </div>
   );
