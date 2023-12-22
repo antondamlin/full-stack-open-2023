@@ -32,21 +32,21 @@ const AddBlog = ({ addBlog }) => {
       <form onSubmit={handleSubmit}>
         <div>
           title:
-          <input data-testid="title" value={title} onChange={handleTitleChange} />
+          <input id="title" value={title} onChange={handleTitleChange} />
         </div>
         <div>
           author:{' '}
           <input
-            data-testid="author"
+            id="author"
             value={author}
             onChange={handleAuthorChange}
           />
         </div>
         <div>
           url:
-          <input value={url} data-testid="url" onChange={handleUrlChange} />
+          <input value={url} id="url" onChange={handleUrlChange} />
         </div>
-        <button type="submit">create</button>
+        <button id="submit" type="submit">create</button>
       </form>
     </div>
   )

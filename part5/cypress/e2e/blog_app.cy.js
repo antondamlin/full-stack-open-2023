@@ -16,6 +16,7 @@ describe("Blog app", function () {
     cy.contains("password");
     cy.contains("login");
   });
+
   describe("Login", function () {
     it("succeeds with correct credentials", function () {
       cy.get("#username").type("Testing_user");
@@ -29,6 +30,22 @@ describe("Blog app", function () {
       cy.get("#password").type("testing_pa");
       cy.get("#loginButton").click();
       cy.contains("invalid username or password");
+    });
+  });
+
+  describe("When logged in", function () {
+    beforeEach(function () {
+      cy.login({ username: "Testing_user", password: "testing_pass" });
+    });
+
+    it("A blog can be created", function () {
+      cy.contains("blogs");
+      cy.get("#newBlogButton").click();
+      cy.get("#title").type("Testing_Title");
+      cy.get("#author").type("testing_author");
+      cy.get("#url").type("testing_url");
+      cy.get("#submit").click();
+      cy.contains("Testing_Title");
     });
   });
 });
