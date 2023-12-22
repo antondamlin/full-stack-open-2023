@@ -16,9 +16,10 @@ const App = () => {
   const [updateBlogs, setUpdageBlogs] = useState(false);
 
   const addBlogForm = useRef();
+  const sortByLikes = (a, b) => b.likes - a.likes;
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    blogService.getAll().then((blogs) => setBlogs(blogs.sort(sortByLikes)));
   }, [updateBlogs]);
 
   useEffect(() => {
