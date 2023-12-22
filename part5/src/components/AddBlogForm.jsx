@@ -32,21 +32,25 @@ const AddBlog = ({ addBlog }) => {
       <form onSubmit={handleSubmit}>
         <div>
           title:
-          <input value={title} onChange={handleTitleChange} />
+          <input data-testid="title" value={title} onChange={handleTitleChange} />
         </div>
         <div>
-          author: <input value={author} onChange={handleAuthorChange} />
+          author:{' '}
+          <input
+            data-testid="author"
+            value={author}
+            onChange={handleAuthorChange}
+          />
         </div>
         <div>
           url:
-          <input value={url} onChange={handleUrlChange} />
+          <input value={url} data-testid="url" onChange={handleUrlChange} />
         </div>
         <button type="submit">create</button>
       </form>
     </div>
   )
 }
-
 
 AddBlog.propTypes = {
   addBlog: PropTypes.func.isRequired,
