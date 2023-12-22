@@ -66,7 +66,7 @@ const App = () => {
   const handleBlogAddition = async (title, author, url) => {
     addBlogForm.current.toggleVisibility();
     try {
-      const newBlog = await blogService.addBlog({
+      await blogService.addBlog({
         title: title,
         author: author,
         url: url,
@@ -95,7 +95,19 @@ const App = () => {
     }
   };
 
-  console.log(blogs);
+  const handleAddLike = async (blog, blogId) => {
+    try {
+      await blogService.updateBlog(blog, blogId);
+      setUpdageBlogs(!updateBlogs);
+    } catch (exception) {
+      setErrorMessage("Not able to update the blog post");
+      setClassNotification("error");
+      setTimeout(() => {
+        setErrorMessage("");
+        setClassNotification("");
+      }, 5000);
+    }
+  };
 
   if (user === null) {
     return (
@@ -138,7 +150,7 @@ const App = () => {
         <AddBlog addBlog={handleBlogAddition} />
       </Togglable>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} addLike={handleAddLike} />
       ))}
     </div>
   );
