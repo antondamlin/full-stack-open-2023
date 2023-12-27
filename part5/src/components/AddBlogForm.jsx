@@ -1,30 +1,30 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 const AddBlog = ({ addBlog }) => {
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [url, setUrl] = useState("");
 
   const handleTitleChange = (event) => {
-    setTitle(event.target.value)
-  }
+    setTitle(event.target.value);
+  };
 
   const handleUrlChange = (event) => {
-    setUrl(event.target.value)
-  }
+    setUrl(event.target.value);
+  };
 
   const handleAuthorChange = (event) => {
-    setAuthor(event.target.value)
-  }
+    setAuthor(event.target.value);
+  };
 
   const handleSubmit = (event) => {
-    event.preventDefault()
-    addBlog(title, author, url)
-    setAuthor('')
-    setUrl('')
-    setTitle('')
-  }
+    event.preventDefault();
+    addBlog(title, author, url);
+    setAuthor("");
+    setUrl("");
+    setTitle("");
+  };
 
   return (
     <div>
@@ -32,28 +32,26 @@ const AddBlog = ({ addBlog }) => {
       <form onSubmit={handleSubmit}>
         <div>
           title:
-          <input id="title" value={title} onChange={handleTitleChange} />
+          <input id="title" data-testid="title" value={title} onChange={handleTitleChange} />
         </div>
         <div>
-          author:{' '}
-          <input
-            id="author"
-            value={author}
-            onChange={handleAuthorChange}
-          />
+          author:{" "}
+          <input id="author" data-testid="author" value={author} onChange={handleAuthorChange} />
         </div>
         <div>
           url:
-          <input value={url} id="url" onChange={handleUrlChange} />
+          <input value={url} id="url" data-testid="url" onChange={handleUrlChange} />
         </div>
-        <button id="submit" type="submit">create</button>
+        <button id="submit" type="submit">
+          create
+        </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
 AddBlog.propTypes = {
   addBlog: PropTypes.func.isRequired,
-}
+};
 
-export default AddBlog
+export default AddBlog;
