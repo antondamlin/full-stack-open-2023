@@ -57,8 +57,8 @@ describe("Blog app", function () {
       cy.get("#submit").click();
       cy.contains("Testing_Title testing_author");
 
-      cy.get("#viewButton").click();
-      cy.get("#likeButton").click();
+      cy.get("#Testing_Title-viewButton").click();
+      cy.get("#Testing_Title-likeButton").click();
       cy.contains("1");
     });
 
@@ -71,8 +71,8 @@ describe("Blog app", function () {
       cy.get("#submit").click();
       cy.contains("Testing_Title testing_author");
 
-      cy.get("#viewButton").click();
-      cy.get("#removeButton").click();
+      cy.get("#Testing_Title-viewButton").click();
+      cy.get("#Testing_Title-removeButton").click();
       cy.get("#landing").should("not.contain", "Testing_Title testing_author");
     });
   });
@@ -105,8 +105,39 @@ describe("Blog app", function () {
       cy.get("#loginButton").click();
 
       cy.contains("blogs");
-      cy.get("#viewButton").click();
-      cy.contains("#remove").should("not.exist");
+      cy.get("#Testing_delete_Title-viewButton").click();
+      cy.get("#Testing_delete_Title-removeButton").should("not.be.visible");
+    });
+  });
+
+  describe("Blogs are sorted according to likes", function () {
+    it("", function () {
+      cy.contains("blogs");
+      cy.get("#newBlogButton").click();
+      cy.get("#title").type("Testing_Title1");
+      cy.get("#author").type("testing_author1");
+      cy.get("#url").type("testing_url1");
+      cy.get("#submit").click();
+      cy.contains("Testing_delete_Title1 testing_delete_author1");
+
+      cy.contains("blogs");
+      cy.get("#newBlogButton").click();
+      cy.get("#title").type("Testing_Title2");
+      cy.get("#author").type("testing_author2");
+      cy.get("#url").type("testing_url2");
+      cy.get("#submit").click();
+      cy.contains("Testing_Title2 testing_author2");
+
+      cy.contains("blogs");
+      cy.get("#newBlogButton").click();
+      cy.get("#title").type("Testing_Title3");
+      cy.get("#author").type("testing_author3");
+      cy.get("#url").type("testing_url3");
+      cy.get("#submit").click();
+      cy.contains("Testing_Title3 testing_author3");
+
+      cy.contains("The title with most likes").contains("view").click();
+      cy.get("button").contains("like").click();
     });
   });
 });

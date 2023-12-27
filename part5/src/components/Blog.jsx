@@ -40,7 +40,7 @@ const Blog = ({ blog, addLike, deleteBlog, user}) => {
     <div style={blogStyle}>
       <div className="blogInfo">
         {blog.title} {blog.author}
-        <button id="viewButton" onClick={handleViewChange}>
+        <button id={blog.title + "-viewButton"} onClick={handleViewChange}>
           {buttonText}
         </button>
       </div>
@@ -48,12 +48,12 @@ const Blog = ({ blog, addLike, deleteBlog, user}) => {
         <div>{blog.url}</div>
         <div>
           {blog.likes}
-          <button id="likeButton" onClick={handleAddLike}>
+          <button id={blog.title  + "-likeButton"} onClick={handleAddLike}>
             like
           </button>
         </div>
         <div>{blog.user.name}</div>
-        <button style={buttonStyle} id="removeButton" onClick={deleteClick}>
+        <button style={buttonStyle} id={blog.title  + "-removeButton"} onClick={deleteClick}>
           remove
         </button>
       </div>
