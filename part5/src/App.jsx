@@ -178,7 +178,7 @@ const App = () => {
       <Notification message={errorMessage} classVal={classNotification} />
       <div style={{ display: "flex" }}>
         <p>{user.name} logged in</p>{" "}
-        <button onClick={handleLogout}>logout</button>
+        <button id="logout-button" onClick={handleLogout}>logout</button>
       </div>
       <Togglable buttonText="new blog" ref={addBlogForm}>
         <AddBlog addBlog={handleBlogAddition} />
@@ -187,6 +187,7 @@ const App = () => {
         <Blog
           key={blog.id}
           blog={blog}
+          user={user}
           addLike={handleAddLike}
           deleteBlog={handleDelete}
         />

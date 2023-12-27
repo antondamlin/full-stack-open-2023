@@ -33,7 +33,7 @@ describe("Blog app", function () {
     });
   });
 
-  describe("When logged in", function () {
+  describe("When logged in, single user", function () {
     beforeEach(function () {
       cy.login({ username: "Testing_user", password: "testing_pass" });
     });
@@ -74,6 +74,39 @@ describe("Blog app", function () {
       cy.get("#viewButton").click();
       cy.get("#removeButton").click();
       cy.get("#landing").should("not.contain", "Testing_Title testing_author");
+    });
+  });
+
+  describe("When logged in, multiple users", function () {
+    beforeEach(function () {
+      const newSecondUser = {
+        name: "Testing_name2",
+        username: "Testing_user2",
+        password: "testing_pass2",
+      };
+      cy.request("POST", "http://localhost:3003/api/users/", newSecondUser);
+      cy.visit("http://localhost:5173");
+      cy.login({ username: "Testing_user", password: "testing_pass" });
+    });
+
+    it("User can only delete own blogs", function () {
+      cy.contains("blogs");
+      cy.get("#newBlogButton").click();
+      cy.get("#title").type("Testing_delete_Title");
+      cy.get("#author").type("testing_delete_author");
+      cy.get("#url").type("testing_delete_url");
+      cy.get("#submit").click();
+      cy.contains("Testing_delete_Title testing_delete_author");
+
+      cy.get("#logout-button").click();
+      cy.contains("Log in to application");
+      cy.get("#username").type("Testing_user2");
+      cy.get("#password").type("testing_pass2");
+      cy.get("#loginButton").click();
+
+      cy.contains("blogs");
+      cy.get("#viewButton").click();
+      cy.contains("#remove").should("not.exist");
     });
   });
 });

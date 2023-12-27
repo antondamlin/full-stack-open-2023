@@ -1,10 +1,12 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-const Blog = ({ blog, addLike, deleteBlog }) => {
+const Blog = ({ blog, addLike, deleteBlog, user}) => {
   const [visible, setVisible] = useState(false);
   const [buttonText, setButtonText] = useState("view");
   const show = { display: visible ? "" : "none" };
+
+  const buttonStyle = { display: blog.user.username === user.username ? "" : "none" };
 
   const handleViewChange = () => {
     const buttonText = !visible ? "hide" : "view";
@@ -33,7 +35,7 @@ const Blog = ({ blog, addLike, deleteBlog }) => {
     borderWidth: 1,
     marginBottom: 5,
   };
-
+  
   return (
     <div style={blogStyle}>
       <div className="blogInfo">
@@ -51,7 +53,9 @@ const Blog = ({ blog, addLike, deleteBlog }) => {
           </button>
         </div>
         <div>{blog.user.name}</div>
-        <button id="removeButton"onClick={deleteClick}>remove</button>
+        <button style={buttonStyle} id="removeButton" onClick={deleteClick}>
+          remove
+        </button>
       </div>
     </div>
   );
