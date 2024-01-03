@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 const AnecdoteList = () => {
   const anecdotes = useSelector((data) => {
-    if (data.filter === "") {
-      return data.anecdotes;
+    const dataObj = JSON.parse(JSON.stringify(data));
+    if (dataObj.filter === "") {
+      return dataObj.anecdotes;
     } else {
-      return data.anecdotes.filter((anec) =>
-        anec.content.toLowerCase().includes(data.filter)
+      return dataObj.anecdotes.filter((anec) =>
+        anec.content.toLowerCase().includes(dataObj.filter)
       );
     }
   });
