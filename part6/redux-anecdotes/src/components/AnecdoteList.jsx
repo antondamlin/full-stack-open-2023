@@ -7,12 +7,12 @@ const AnecdoteList = () => {
     if (dataObj.filter === "") {
       return dataObj.anecdotes;
     } else {
-      return dataObj.anecdotes.filter((anec) =>
-        anec.content.toLowerCase().includes(dataObj.filter)
-      );
+      const returnArray = dataObj.anecdotes.filter((anec) => {
+        return anec.content.toLowerCase().includes(dataObj.filter);
+      });
+      return returnArray;
     }
   });
-
   const dispatch = useDispatch();
   const sortByVotes = (a, b) => b.votes - a.votes;
 

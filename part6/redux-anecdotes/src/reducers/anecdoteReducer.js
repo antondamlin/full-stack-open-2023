@@ -35,7 +35,7 @@ const anecdoteSlice = createSlice({
       return state.map((anec) => (anec.id !== id ? anec : newAnecdote));
     },
     addAnecdote(state = initialState, action) {
-      state.push(action.payload);
+      state.push(asObject(action.payload));
       return state;
     },
   },
@@ -45,7 +45,7 @@ export const { addAnecdote, voteAnecdote } = anecdoteSlice.actions;
 export default anecdoteSlice.reducer;
 
 /*const anecdoteReducer = (state = initialState, action) => {
-  console.log("state now: ", state);
+  .log("state now: ", state);
   console.log("action", action);
   switch (action.type) {
     case "VOTE":
