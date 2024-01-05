@@ -18,7 +18,6 @@ const AnecdoteList = () => {
   const sortByVotes = (a, b) => b.votes - a.votes;
 
   const handleVote = (id, title) => {
-    console.log('vote', id);
     dispatch(voteAnecdote(id));
     const message = 'you voted \'' + title + '\'';
     dispatch(setTimeoutNotification(message, 5));
