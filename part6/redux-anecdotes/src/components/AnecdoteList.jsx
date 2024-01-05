@@ -23,6 +23,7 @@ const AnecdoteList = () => {
     dispatch(setTimeoutNotification(message, 5));
   };
 
+  console.log(anecdotes);
   return (
     <div>
       {anecdotes.sort(sortByVotes).map((anecdote) => (
