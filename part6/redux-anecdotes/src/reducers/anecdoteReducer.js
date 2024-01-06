@@ -6,13 +6,8 @@ const anecdoteSlice = createSlice({
   initialState: [],
   reducers: {
     voteAnecdote(state, action) {
-      const id = action.payload;
-      const anectdoteVoted = state.find((anec) => anec.id === id);
-      const newAnecdote = {
-        ...anectdoteVoted,
-        votes: anectdoteVoted.votes + 1,
-      };
-      return state.map((anec) => (anec.id !== id ? anec : newAnecdote));
+      const anecdote = action.payload;
+      return state.map((anec) => (anec.id !== anecdote.id ? anec : anecdote));
     },
     addAnecdote(state, action) {
       state.push(action.payload);
@@ -44,42 +39,11 @@ export const createAnecdote = (content) => {
   };
 };
 
+export const addVoteToAnecdote = (id) => {
+  return async (dispatch) => {
+    const anecdote = await anecdoteServices.addVote(id);
+    dispatch(voteAnecdote(anecdote));
+  };
+};
+
 export default anecdoteSlice.reducer;
-
-/*const anecdoteReducer = (state = initialState, action) => {
-  .log("state now: ", state);
-  console.log("action", action);
-  switch (action.type) {
-    case "VOTE":
-      const id = action.payload.id;
-      const anectdoteVoted = state.find((anec) => anec.id === id);
-      const newAnecdote = {
-        ...anectdoteVoted,
-        votes: anectdoteVoted.votes + 1,
-      };
-      return state.map((anec) => (anec.id !== id ? anec : newAnecdote));
-    case "NEW_ANECDOTE":
-      return [...state, action.payload];
-    default:
-      return state;
-  }
-};
-
-export const voteAnecdote = (id) => {
-  return {
-    type: "VOTE",
-    payload: { id },
-  };
-};
-
-export const addAnecdote = (content) => {
-  return {
-    type: "NEW_ANECDOTE",
-    payload: {
-      content,
-      votes: 0,
-      id: getId(),
-    },
-  };
-}
-*/
