@@ -17,10 +17,10 @@ const AnecdoteList = () => {
   const dispatch = useDispatch();
   const sortByVotes = (a, b) => b.votes - a.votes;
 
-  const handleVote = (id, title) => {
-    dispatch(addVoteToAnecdote(id));
-    const message = 'you voted \'' + title + '\'';
-    dispatch(setTimeoutNotification(message, 5));
+  const handleVote = (anecdote) => {
+    dispatch(addVoteToAnecdote(anecdote.id));
+    const message = `you voted '${anecdote.content}'`;
+    dispatch(setTimeoutNotification(message, 10));
   };
   return (
     <div>
@@ -29,9 +29,7 @@ const AnecdoteList = () => {
           <div>{anecdote.content}</div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => handleVote(anecdote.id, anecdote.content)}>
-              vote
-            </button>
+            <button onClick={() => handleVote(anecdote)}>vote</button>
           </div>
         </div>
       ))}

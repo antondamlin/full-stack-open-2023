@@ -9,8 +9,8 @@ const AnecdoteForm = () => {
     const val = event.target.anecdote.value;
     dispatch(createAnecdote(val));
     event.target.anecdote.value = '';
-    const message = 'you added anecdote a new anecdote: \'' + val + '\'';
-    dispatch(setTimeoutNotification(message, 5));
+    const message = `you added anecdote a new anecdote: '${val}'`;
+    dispatch(setTimeoutNotification(message, 10));
   };
 
   return (

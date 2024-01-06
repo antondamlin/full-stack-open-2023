@@ -13,10 +13,15 @@ const notificationSlice = createSlice({
   },
 });
 
+let notificationActive = null;
+
 export const setTimeoutNotification = (text, time) => {
   return (dispatch) => {
+    if (notificationActive !== null) {
+      clearTimeout(notificationActive);
+    }
     dispatch(changeNotification(text));
-    setTimeout(() => {
+    notificationActive = setTimeout(() => {
       dispatch(hideNotification());
     }, time * 1000);
   };
