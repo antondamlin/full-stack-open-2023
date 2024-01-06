@@ -1,14 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const notificationSlice = createSlice({
-  name: 'notification',
-  initialState: '',
+  name: "notification",
+  initialState: "",
   reducers: {
     changeNotification(state, action) {
       return action.payload;
     },
     hideNotification(state, action) {
-      return '';
+      return "";
     },
   },
 });
@@ -26,6 +26,7 @@ export const setTimeoutNotification = (text, time) => {
     }, time * 1000);
   };
 };
+
 
 export const { changeNotification, hideNotification } =
   notificationSlice.actions;
