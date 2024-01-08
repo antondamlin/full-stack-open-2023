@@ -11,7 +11,8 @@ const AnecdoteForm = () => {
       const anecdotes = queryClient.getQueryData(["anecdotes"]);
       queryClient.setQueryData(["anecdotes"], anecdotes.concat(newAnecObj));
     },
-    onError: () => {
+    onError: (error) => {
+      console.log(error);
       notificationDispatch({
         type: "show",
         payload: `too short anecdote, must have length 5 or more`,
