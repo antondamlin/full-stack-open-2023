@@ -2,11 +2,13 @@ import AnecdoteForm from "./components/AnecdoteForm";
 import Notification from "./components/Notification";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getAll, voteAnecdote } from "./requests";
+import { useNotificationDispatch } from "./NotificationContext";
 
 const App = () => {
   const queryClient = useQueryClient();
+  const notificationDispatch = useNotificationDispatch();
   const request = useQuery({
-    queryKey: ['anecdotes'],
+    queryKey: ["anecdotes"],
     queryFn: getAll,
     retry: 1,
     refetchOnWindowFocus: false,
@@ -19,18 +21,23 @@ const App = () => {
   const updateAnecMutation = useMutation({
     mutationFn: voteAnecdote,
     onSuccess: (newAnecObj) => {
-      const anecdotes = queryClient.getQueryData(['anecdotes']);
+      const anecdotes = queryClient.getQueryData(["anecdotes"]);
       queryClient.setQueryData(
-        ['anecdotes'],
-        anecdotes.map((anec) =>
-          anec.id === newAnecObj.id ? newAnecObj : anec
-        )
+        ["anecdotes"],
+        anecdotes.map((anec) => (anec.id === newAnecObj.id ? newAnecObj : anec))
       );
     },
   });
 
   const handleVote = (anecdote) => {
     updateAnecMutation.mutate({ ...anecdote, votes: anecdote.votes + 1 });
+    notificationDispatch({
+      type: "show",
+      payload: `you voted: '${anecdote.content}'`,
+    });
+    setTimeout(() => {
+      notificationDispatch({ type: "hide" });
+    }, 5000);
   };
 
   if (request.isLoading) {
@@ -47,7 +54,6 @@ const App = () => {
 
       <Notification />
       <AnecdoteForm />
-
       {anecdotes.map((anecdote) => (
         <div key={anecdote.id}>
           <div>{anecdote.content}</div>
