@@ -11,10 +11,18 @@ const AnecdoteForm = () => {
       const anecdotes = queryClient.getQueryData(["anecdotes"]);
       queryClient.setQueryData(["anecdotes"], anecdotes.concat(newAnecObj));
     },
+    onError: () => {
+      notificationDispatch({
+        type: "show",
+        payload: `too short anecdote, must have length 5 or more`,
+      });
+      setTimeout(() => {
+        notificationDispatch({ type: "hide" });
+      }, 5000);
+    },
   });
 
   const getId = () => (100000 * Math.random()).toFixed(0);
-
   const onCreate = (event) => {
     event.preventDefault();
     const anecContent = event.target.anecdote.value;
