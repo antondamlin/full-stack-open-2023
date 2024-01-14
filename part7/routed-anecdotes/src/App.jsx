@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useField } from "./hooks/index";
 import { Routes, Route, Link, useMatch, useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const Menu = () => {
   const padding = {
@@ -35,6 +36,9 @@ const AnecdoteList = ({ anecdotes }) => (
     </ul>
   </div>
 );
+AnecdoteList.propTypes = {
+  anecdotes: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 const Anecdote = ({ anecdote }) => {
   return (
@@ -43,6 +47,10 @@ const Anecdote = ({ anecdote }) => {
       <p>has {anecdote.votes} votes</p>
     </div>
   );
+};
+
+Anecdote.propTypes = {
+  anecdote: PropTypes.object,
 };
 
 const About = () => (
@@ -57,7 +65,7 @@ const About = () => (
       more general than the brief tale itself, such as to characterize a person
       by delineating a specific quirk or trait, to communicate an abstract idea
       about a person, place, or thing through the concrete details of a short
-      narrative. An anecdote is "a story with a point."
+      narrative. An anecdote is `a story with a point.`
     </em>
 
     <p>
@@ -79,9 +87,9 @@ const Footer = () => (
 );
 
 const CreateNew = (props) => {
-  const content = useField('text')
-  const author = useField('text')
-  const url = useField('text')
+  const content = useField("text");
+  const author = useField("text");
+  const url = useField("text");
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -93,6 +101,16 @@ const CreateNew = (props) => {
       votes: 0,
     });
     navigate("/");
+  };
+
+  CreateNew.propTypes = {
+    addNew: PropTypes.func.isRequired,
+  };
+
+  const handleEmptyValues = () => {
+    content.emptyValue();
+    author.emptyValue();
+    url.emptyValue();
   };
 
   return (
@@ -126,7 +144,10 @@ const CreateNew = (props) => {
             onChange={url.onChange}
           />
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
+        <button type="reset" onClick={handleEmptyValues}>
+          reset
+        </button>
       </form>
     </div>
   );
@@ -159,9 +180,9 @@ const App = () => {
     setTimeout(() => setNotification(""), 5000);
   };
 
-  const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
-
-  const vote = (id) => {
+  /*
+   const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
+   const vote = (id) => {
     const anecdote = anecdoteById(id);
 
     const voted = {
@@ -171,6 +192,7 @@ const App = () => {
 
     setAnecdotes(anecdotes.map((a) => (a.id === id ? voted : a)));
   };
+  */
 
   const matchAnecdote = useMatch("/anecdotes/:id");
 
